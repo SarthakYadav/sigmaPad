@@ -1,0 +1,177 @@
+﻿<Window x:Class="sigmaPad.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:w="http://icsharpcode.net/sharpdevelop/avalonedit"
+        MinHeight="400" MinWidth="450" Title="&#x3A3;Pad" HorizontalContentAlignment="Center" WindowStyle="ThreeDBorderWindow" FontSize="15">
+    <Grid x:Name="Base" ShowGridLines="False" Background="LightSlateGray" UseLayoutRounding="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.Column="0" >
+            <Menu x:Name="menu1" DockPanel.Dock="Top" Foreground="White" Background="LightSlateGray" Height="Auto" Padding="3" FontSize="15" HorizontalAlignment="Stretch">
+                <MenuItem Header="_File" Padding="1" Margin="0,1" HorizontalContentAlignment="Center" MinWidth="50">
+                    <MenuItem x:Name="menuNew" Header="New" Foreground="Black" Click="menuNew_Click"></MenuItem>
+                    <MenuItem x:Name="menuOpen" Header="Open" Foreground="Black" Click="menuOpen_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Resources\folder-open.png"></Image>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem x:Name="SaveAs" Header="Save As" Foreground="Black" Click="SaveAs_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Resources\save_as.png"></Image>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="_save" Header="Save" Foreground="Black" Click="_save_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Resources\save.png"></Image>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem x:Name="menuItmExit" Header="Exit" Foreground="Black" Click="menuItmExit_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Resources\exit.png"></Image>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Edit" Margin="0,1" HorizontalContentAlignment="Center" Padding="1" MinWidth="50">
+                    <MenuItem x:Name="_undo" Header="Undo" Foreground="Black" Click="_undo_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Resources\back_undo.png"></Image>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="_redo" Header="Redo" Foreground="Black" Click="_redo_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Resources\Redo.png"></Image>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator></Separator>
+                    <MenuItem x:Name="_cut" Header="Cut" Foreground="Black" Click="_cut_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Resources\Light_Cut.png"></Image>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="_copy" Header="Copy" Foreground="Black" Click="_copy_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Resources\Copy.png"></Image>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="_paste" Header="Paste" Foreground="Black" Click="_paste_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Resources\edit-paste.png"></Image>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+            <Border DockPanel.Dock="Bottom" BorderBrush="Ivory" Padding="3" BorderThickness="3" CornerRadius="0,3,3,0" Margin="2">
+                <StatusBar Height="Auto" Width="270" Margin="1,0,0,0" Background="LightSlateGray">
+                    <DockPanel>
+                        <ComboBox DockPanel.Dock="Right" Width="40" Margin="5" Padding="1" Text="{Binding ElementName=sliderFontSize,Path=Value, Mode=TwoWay}">
+                            <ComboBoxItem>5</ComboBoxItem>
+                            <ComboBoxItem>10</ComboBoxItem>
+                            <ComboBoxItem>15</ComboBoxItem>
+                            <ComboBoxItem>20</ComboBoxItem>
+                            <ComboBoxItem>25</ComboBoxItem>
+                            <ComboBoxItem>30</ComboBoxItem>
+                            <ComboBoxItem>35</ComboBoxItem>
+                            <ComboBoxItem>40</ComboBoxItem>
+                            <ComboBoxItem>50</ComboBoxItem>
+                        </ComboBox>
+                        <Slider Name="sliderFontSize" Minimum="5" Maximum="50" TickFrequency="10" ToolTip="{Binding ElementName=sliderFontSize,Path=Value}" TickPlacement="TopLeft" Value="20" DockPanel.Dock="Right" Width="120" Foreground="{x:Null}" Background="{x:Null}" Margin="5" Padding="1"/>
+                        <TextBlock DockPanel.Dock="Left" Foreground="White" Margin="5" Padding="1">Text Zoom :</TextBlock>
+                    </DockPanel>
+                </StatusBar>
+            </Border>
+            <Border BorderBrush="Ivory" Padding="3" BorderThickness="3" Margin="2" CornerRadius="0,4,4,0">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,1,0,-1">
+                    <StackPanel>
+                        <Expander Header="Find" Foreground="White" FontSize="15">
+                            <Border BorderBrush="Ivory" BorderThickness="2" Background="LightGray" CornerRadius="1,1,1,1" >
+                                <StackPanel>
+                                    <Label Content="Find:" Foreground="White" FontSize="15"/>
+                                    <TextBox x:Name="finder" Background="LightSlateGray" Foreground="White" Width="Auto" MinWidth="150" HorizontalAlignment="Center"/>
+                                    <Label Content="Replace With:" Foreground="White" FontSize="15" />
+                                    <TextBox x:Name="replacer" Background="LightSlateGray" Foreground="White" Width="Auto" MinWidth="150" HorizontalAlignment="Center"/>
+                                    <CheckBox x:Name="selectedTextOnly" Content="Replace In selected text only" Foreground="White" Checked="selectedTextOnly_Checked"/>
+                                    <DockPanel Width="Auto">
+                                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                                            <Button x:Name="_find" HorizontalAlignment="Center" FontSize="15" Width="Auto" Padding="1" Margin="1" Click="_find_Click">Find</Button>
+                                            <Button x:Name="_replace" HorizontalAlignment="Center" FontSize="15" Width="Auto" Margin="1" Padding="1" Click="_replace_Click">Replace All</Button>
+                                        </StackPanel>
+                                    </DockPanel>
+                                </StackPanel>
+                            </Border>
+                        </Expander>
+                        <Expander Header="Settings" Foreground="White" FontSize="15">
+
+                            <GroupBox Header="Editor">
+                                <StackPanel Orientation="Vertical" Background="LightGray">
+                                    <!--<DockPanel>
+                                                <TextBlock Margin="3" Padding="3" VerticalAlignment="Center" DockPanel.Dock="Left">Font Type :</TextBlock>
+                                                <ComboBox Margin="3" Padding="3" DockPanel.Dock="Right" Width="76"></ComboBox>
+                                            </DockPanel> -->
+                                    <DockPanel>
+                                        <CheckBox x:Name="fntCheck" Content="Font type :" Margin="3" Padding="3" VerticalContentAlignment="Center"/>
+                                        <ComboBox x:Name="Families" ItemsSource="{x:Static Fonts.SystemFontFamilies}" IsEnabled="{Binding ElementName=fntCheck,Path=IsChecked}"/>
+                                    </DockPanel>
+                                    <CheckBox x:Name="toggleEditorLineNo" Content="Show editor line numbers" Margin="3" Padding="3" VerticalContentAlignment="Center" Checked="toggleEditorLineNo_Checked"/>
+                                    <DockPanel>
+                                        <CheckBox x:Name="toggleSynHigh" Content="Turn on syntax highlighting" Margin="3" Padding="3" VerticalContentAlignment="Center" IsChecked="True"/>
+                                        <ComboBox x:Name="langSelect" AllowDrop="True" Text="C#" SelectionChanged="langSelect_SelectionChanged">
+
+                                            <ComboBoxItem ToolTip="for C# files">C#</ComboBoxItem>
+                                            <ComboBoxItem ToolTip="For c/c++ files">C++</ComboBoxItem>
+                                            <ComboBoxItem ToolTip="for Html Files">Html</ComboBoxItem>
+
+                                            <!--IsEnabled="{Binding ElementName=toggleSynHigh,Path=IsChecked}"-->
+
+                                        </ComboBox>
+                                    </DockPanel>
+                                    <CheckBox Content="Turn on brace matching" Margin="3" Padding="3" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </GroupBox>
+
+
+                        </Expander>
+                        <Expander Header="About" Foreground="White" FontSize="15">
+                            <GroupBox Header="&#x3A3;Pad v1.0.0">
+                                <StackPanel Orientation="Vertical">
+                                <TextBlock TextWrapping="Wrap">made using .net 4.5 through C# and WPF.</TextBlock>
+                                </StackPanel>
+                            </GroupBox>
+                        </Expander>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </DockPanel>
+        <Border Grid.Column="1" Margin="2" Padding="3" BorderThickness="3" BorderBrush="Ivory" CornerRadius="4,0,0,4">
+            <TabControl Name="tabDynamic" ItemsSource="{Binding}" SelectionChanged="tabDynamic_SelectionChanged">
+                <TabControl.Resources>
+                    <DataTemplate x:Key="TabHeader" DataType="TabItem">
+                        <DockPanel>
+                            <Button Name="btnDelete" DockPanel.Dock="Right" Margin="5,0,0,0" Padding="0" Click="btnDelete_Click" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Name}">
+                                <Image Height="11" Width="11" Source="Resources/DeleteGrey.png" >
+                                </Image>
+                            </Button>
+                            <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Header}" />
+                        </DockPanel>
+                    </DataTemplate>
+                    <Style TargetType="w:TextEditor" x:Name="t1" >
+
+                        <Setter Property="ShowLineNumbers" Value="{Binding ElementName=toggleEditorLineNo,Path=IsChecked}"></Setter>
+                        <Setter x:Name="synHighlight" Property="SyntaxHighlighting" Value="C#"></Setter>
+                        <Setter Property="Background" Value="White"></Setter>
+                        <Setter Property="Padding" Value="3"></Setter>
+                        <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+                        <Setter  Property="HorizontalAlignment" Value="Stretch"></Setter>
+                        <Setter Property="FontFamily" Value="{Binding ElementName=Families,Path=Text}"></Setter>
+                        <Setter x:Name="fntSizeEditor" Property="FontSize" Value="{Binding ElementName=sliderFontSize,Path=Value,Mode=TwoWay}"></Setter>
+                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"></Setter>
+                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"></Setter>
+                    </Style>
+                </TabControl.Resources>
+            </TabControl>
+        </Border>
+    </Grid>
+</Window>
